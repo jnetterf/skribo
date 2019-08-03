@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate log;
 
-use euclid::Vector2D;
+use euclid::{UnknownUnit, Vector2D};
 use font_kit::loaders::default::Font;
 
 mod collection;
@@ -25,7 +25,7 @@ pub struct TextStyle {
 pub struct Layout {
     pub size: f32,
     pub glyphs: Vec<Glyph>,
-    pub advance: Vector2D<f32>,
+    pub advance: Vector2D<f32, UnknownUnit>,
 }
 
 // TODO: remove this (in favor of GlyphInfo as a public API)
@@ -33,7 +33,7 @@ pub struct Layout {
 pub struct Glyph {
     pub font: FontRef,
     pub glyph_id: u32,
-    pub offset: Vector2D<f32>,
+    pub offset: Vector2D<f32, UnknownUnit>,
     // TODO: more fields for advance, clusters, etc.
 }
 

@@ -4,7 +4,7 @@ use std::ops::Range;
 
 use harfbuzz::sys::{hb_script_t, HB_SCRIPT_COMMON, HB_SCRIPT_INHERITED, HB_SCRIPT_UNKNOWN};
 
-use euclid::Vector2D;
+use euclid::{UnknownUnit, Vector2D};
 
 use crate::hb_layout::{layout_fragment, HbFace};
 use crate::unicode_funcs::lookup_script;
@@ -23,7 +23,7 @@ pub(crate) struct LayoutFragment {
     // Length of substring covered by this fragment.
     pub(crate) substr_len: usize,
     pub(crate) script: hb_script_t,
-    pub(crate) advance: Vector2D<f32>,
+    pub(crate) advance: Vector2D<f32, UnknownUnit>,
     pub(crate) glyphs: Vec<FragmentGlyph>,
     pub(crate) hb_face: HbFace,
     pub(crate) font: FontRef,
@@ -36,40 +36,36 @@ pub(crate) struct LayoutFragment {
 pub(crate) struct FragmentGlyph {
     pub cluster: u32,
     pub glyph_id: u32,
-    pub offset: Vector2D<f32>,
-    pub advance: Vector2D<f32>,
+    pub offset: Vector2D<f32, UnknownUnit>,
+    pub advance: Vector2D<f32, UnknownUnit>,
     pub unsafe_to_break: bool,
 }
 
 pub struct LayoutRangeIter<'a> {
     fragments: &'a [LayoutFragment],
-    offset: Vector2D<f32>,
+    offset: Vector2D<f32, UnknownUnit>,
     fragment_ix: usize,
 }
 
 pub struct LayoutRun<'a> {
     // This should potentially be in fragment (would make it easier to binary search)
-    offset: Vector2D<f32>,
+    offset: Vector2D<f32, UnknownUnit>,
     fragment: &'a LayoutFragment,
 }
 
 pub struct RunIter<'a> {
-    offset: Vector2D<f32>,
+    offset: Vector2D<f32, UnknownUnit>,
     fragment: &'a LayoutFragment,
     glyph_ix: usize,
 }
 
 pub struct GlyphInfo {
     pub glyph_id: u32,
-    pub offset: Vector2D<f32>,
+    pub offset: Vector2D<f32, UnknownUnit>,
 }
 
 impl<S: AsRef<str>> LayoutSession<S> {
-    pub fn create(
-        text: S,
-        style: &TextStyle,
-        collection: &FontCollection,
-    ) -> LayoutSession<S> {
+    pub fn create(text: S, style: &TextStyle, collection: &FontCollection) -> LayoutSession<S> {
         let mut i = 0;
         let mut fragments = Vec::new();
         while i < text.as_ref().len() {
