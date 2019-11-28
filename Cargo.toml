@@ -11,9 +11,15 @@ readme = "README.md"
 categories = ["graphics", "text-processing"]
 
 [dependencies]
-harfbuzz = "0.3.1"
-harfbuzz-sys = "0.3.2"
 euclid = "0.20"
 font-kit = { version = "0.4.0"} #, features = ["loader-freetype-default"] }
 unicode-normalization = "0.1.8"
 log = "0.4"
+
+[dependencies.harfbuzz]
+git = "https://github.com/servo/rust-harfbuzz.git"
+rev = "82d4c5b78107a7e87f04803873dc9a2a176628dd"
+
+[dependencies.harfbuzz-sys]
+git = "https://github.com/servo/rust-harfbuzz.git"
+rev = "82d4c5b78107a7e87f04803873dc9a2a176628dd"
